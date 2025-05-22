@@ -1,0 +1,381 @@
+Deep Learning(perceptron)
+1. 퍼셉트론(Perceptron)
+프랑크 로젠블라트(Frank Rosenblatt)가 1957년에 제안한 초기 형태의 인공 신경망으로
+다수의 입력으로부터 하나의 결과를 내보내는 알고리즘.
+실제 뇌를 구성하는 신경 세포 뉴런의 동작과 유사
+뉴런은 가지돌기에서 신호를 받아들이고,
+신호가 일정치 이상의 크기를 가지면 축색돌기를 통해서 신호를 전달.
+
+가중치와 바이어스를 바꿀수있다 이걸 파라미터라고 한다 이를 조절하여 최적의 조합을 찾는것
+1. 생물학적 뉴런 (Biological Neuron)
+• Dendrites (수상돌기): 다른 뉴런에서 신호(정보)를 받아들이는 역할.
+• Cell body (세포체): 뉴런의 중심 부분으로, 받은 신호를 처리.
+• Axon (축삭): 세포체에서 처리된 신호를 다음 뉴런으로 전달.
+• Terminals (종말 단추): 신호를 전달하는 끝부분으로, 다른 뉴런과 연결.
+2. 인공 뉴런 (Artificial Neuron)
+• Inputs (𝑥1,𝑥2,𝑥3,...,𝑥𝑛): 뉴런에 들어오는 데이터(특징)
+• Weights (𝑤1,𝑤2,𝑤3,...,𝑤𝑛 ): 입력에 곱해지는 가중치로, 특정 입력의 중요정도를 결정.
+• Bias (𝐵): 뉴런의 활성화 여부를 조절하는 추가적인 조정값.
+• Weighted Sum (∑): 모든 입력 값과 가중치를 곱한 후 더하는 연산을 수행.
+• Activation Function (𝑓): 가중합이 특정 기준을 넘었을 때 활성화할지 여부를 결정.
+• Output: 최종적으로 계산된 결과값.
+
+| 생물학적 뉴런           | 인공 뉴런                        | 설명                   |
+| ----------------- | ---------------------------- | -------------------- |
+| 수상돌기 (Dendrites)  | 입력 (Inputs)                  | 다른 뉴런으로부터 신호를 받아들임   |
+| 세포체 (Cell body)   | 가중합 연산 (Weighted Sum)        | 받은 신호를 처리함           |
+| 축삭 (Axon)         | 활성화 함수 (Activation Function) | 처리된 신호를 다음 단계로 전달함   |
+| 종말 단추 (Terminals) | 출력 (Output)                  | 최종적으로 신호를 내보내는 역할을 함 |
+
+퍼셉트론은 생물학적 뉴런의 동작을 단순화하여 모방한 모델로,
+신경 세포가 가지돌기에서 신호를 받아들이고,
+일정 임계값을 초과하면 축색돌기를 통해 신호를 전달하는 방식과 유사하다.
+하지만 실제 뉴런과는 달리,
+퍼셉트론은 가중치와 활성화 함수를 기반으로 동작하며,
+다층 구조가 아닌 단층 구조에서는 XOR 연산과 같은 비선형 문제를 해결하지 못하는 한계
+
+퍼셉트론은 단층 구조(single-layer), 입력을 단순한 가중치 조합을 통해
+직선(선형 결정 경계, Linear Decision Boundary)으로 나누는 방식
+XOR 문제는 하나의 직선으로 두 클래스를 나눌 수 없기 때문에, 단층 퍼셉트론만으로
+해결할 수 없었다.
+
+XOR 문제를 해결하려면 곡선을 그리거나, 2개의 직선을 그려야 했다.
+기존의 or, and, nand는 1개의 직선을 그리는 방식이고 이를 해결하지 못했다
+
+퍼셉트론(Perceptron)은 계단 함수(step function) 를 활성화 함수로 사용.
+(즉, 일정 임계값(threshold)을 넘으면 1, 그렇지 않으면 0을 출력).
+현실 세계의 데이터는 대부분 단순한 직선으로 구분할 수 없는 복잡한
+구조를 가지므로, 이를 해결하기 위해 비선형 활성화 함수가 도입
+
+3개의 논리 게이트 NAND, OR, AND 게이트를 조합하면
+즉, 다수의 논리게이트(멀티 레이어)를 사용하여 XOR 문제를 해결할 수 있었다.
+입력층과 출력층으로 구성된 단층 퍼셉트론에
+은닉층이 추가되면 다층 퍼셉트론.
+은닉층은 기존의 출력층과 같이 가중치합을 계산.
+
+활성화 함수(Activation function)는
+신경망(뉴런)이 받은 신호(입력 값)에 대해, "어떤 신호를 다음 뉴런으로 전달할지 결정하는 규칙".
+입력 신호가 들어오면, 활성화 함수가 이를 받아 다음 뉴런으로 신호를 보낼지,
+보낸다면 어느 정도의 강도로 보낼지를 결정
+활성화 함수가 없다면, 신경망은 단순한 입력 신호를 전달만 할 뿐, 복잡한 문제를 해결하지
+못하게 된다. 활성화 함수가 있기 때문에 신경망이 현실세계의 복잡한 패턴을 학습할 수 있습니다.
+
+활성화 함수/ 특징 /용도
+Step function
+(계단 함수) /특정 임계값 초과 여부만 판단/ 퍼셉트론 모델의 원리 설명 시 사용
+Sigmoid
+(시그모이드) /입력을 0~1 사이 값으로 변환 /이진 분류 문제 (스팸 여부 판단)
+Tanh
+(하이퍼볼릭 탄젠트) /입력을 -1~1 사이 값으로 변환/ 값이 음수와 양수인 데이터를 구별할 때 유리
+ReLU
+(렐루)/ 음수는 0, 양수는 그대로 출력 /이미지 인식 등 대부분의 문제에 널리 사용
+Leaky ReLU
+(리키렐루)/ 음수 값도 작은 기울기로 전달 /뉴런이 비활성화되는 현상 방지
+
+Softmax
+활성화 함수의 한 종류로, 신경망의 출력층에서 분류 문제를 해결할 때 사용
+출력되는 모든 값은 0과 1 사이의 확률값으로 모든 클래스의 확률 합이 1.
+
+심층 신경망(Deep Neural Network, DNN) : 은닉층이 2개 이상인 신경망
+
+Hidden Layer(은닉층)
+• 신경망 내부에서 연산을 수행하지만, 외부에서는 직접 볼 수 없기 때문에 붙여진 이름
+• 데이터를 추상화하고, 패턴을 학습하며, 비선형성을 추가하여 복잡한 문제를 해결
+• 은닉층이 없으면 단순한 선형 모델이 되어, 현실 세계의 복잡한 문제를 해결 불가
+
+DNN (Deep Neural Network) - 심층신경망
+•여러층의 은닉층(hidden layer) 보유
+•역전파 알고리즘(Backpropagation)으로 학습
+•경사하강법으로 에러를 최소화
+•DNN을 응용하여 CNN, RNN, LSTM, GRU 발전
+3.완전 연결층(Fully Connected Layer)
+모든 입력 뉴런과 출력 뉴런이 서로 연결되어 있는 층.
+각 뉴런 사이의 연결은 선형 연산과 활성화 함수를 거쳐 진행된다
+각 입력 뉴런은 출력 뉴런과 가중치로 연결되어 있으며, 이 가중치는 학습 과정에서 조정.
+
+ANN(Artifitial Neural Network)
+입력 데이터를 받아 가중치와 활성화 함수를 통해
+출력을 생성하는 계층으로 구성되며, Fully Connected Layer로 이루어져 있다.
+주요 구조:
+입력층(Input Layer): 외부에서 입력 데이터를 받아들이는 역할.
+입력층의 뉴런 수는 입력 데이터의 특성 수와 일치.
+은닉층(Hidden Layer): 복잡한 비선형 관계를 학습하는 데 사용.
+은닉층은 여러 개의 FC Layer로 구성될 수 있으며, 각 층은 다양한 수의 뉴런으로
+이루어 진다.
+출력층(Output Layer): 최종적인 예측 결과를 출력하는 역할.
+분류 문제의 경우 소프트맥스(softmax) 함수로 각 클래스의 확률 분포를 출력
+회귀 문제의 경우 선형 활성화 함수를 사용.
+
+ANN vs CNN
+1) 구조:
+ANN: ANN은 입력층, 은닉층, 출력층으로 구성된 일반적인 신경망 구조. 모든 뉴런이
+이전 계층의 모든 뉴런과 연결되어 있는 완전 연결 구조(FC Layer).
+CNN: CNN은 컨볼루션 계층(convolutional layer)과 풀링 계층(pooling layer)을 포함.
+컨볼루션 계층은 입력 데이터의 지역적인 특징을 추출하는 데 사용되며,
+풀링 계층은 특징 맵의 크기를 줄이고 추상화된 특징을 추출.
+2)데이터 학습 방식:
+ANN: ANN은 입력과 출력 사이의 가중치를 조정하여 학습. 일반적으로 경사
+하강법(gradient descent)과 같은 최적화 알고리즘을 사용하여 가중치를 업데이트.
+CNN: CNN은 컨볼루션 연산을 통해 가중치를 학습.
+컨볼루션 연산은 입력 이미지의 지역 패턴을 학습하기 때문에 이미지 데이터에 적합.
+CNN은 이미지 데이터의 공간적인 구조를 보존하면서 학습할 수 있다.
+3) 파라미터 :
+ANN: ANN에서는 각각의 가중치 매개변수가 하나의 입력과 연결. 매우 많은 파라미터를
+가질 수 있으며, 이는 과적합(overfitting)의 가능성을 증가시킬 수 있다.
+CNN: CNN에서는 컨볼루션 연산을 통해 공유되는 가중치(kernel)를 사용합니다. 이로
+인해 훨씬 적은 수의 파라미터가 필요하며, 공간적인 구조를 잘 파악하여 좀 더 효율적
+학습.
+4) 데이터 종류:
+ANN: 수치형 데이터, 텍스트 데이터, 음성 데이터 등 다양한 도메인에서 사용.
+CNN: CNN은 주로 이미지 데이터와 같은 그리드 형태의 데이터
+
+ANN(Artifitial Neural Network) 과 CNN의 명령어 구조
+(Keras 패키지를 기준시)
+구분| ANN |CNN
+구성| 입력층, 은닉층, 출력층 |입력층, 컨볼루션층, 풀링층, 출력층
+코드 |model = Sequential()| model = Sequential()
+model.add(Dense(units=10, |model.add(Conv2D(filters=32,
+activation='relu',| kernel_size=(3, 3),
+input_dim=...))| activation='relu',
+model.add(Dense(units=...) |input_shape=...))
+...| model.add(MaxPooling2D(pool_size=(2, 2)))
+model.compile(...)| ...
+model.fit(...) |...
+
+ Deep Learning 구현 패키지의 종류 및 비교
+| 구분        | Keras                      | TensorFlow                   |
+| --------- | -------------------------- | ---------------------------- |
+| **특징**    | 간결하고 직관적인 고수준 API 프레임워크    | 저수준부터 고수준까지 모두 지원하는 범용 프레임워크 |
+| **난이도**   | 비교적 쉬움                     | 초보자에겐 다소 어려움                 |
+| **유연성**   | 간단하고 빠른 프로토타입 구현 가능        | 복잡하고 정교한 맞춤형 구조 가능           |
+| **속도**    | TensorFlow 기반으로 동일         | 최적화와 세부 조정이 가능해 속도에 강점 있음    |
+| **주 사용층** | 초보자, 교육 목적, 빠른 모델 개발 및 테스트 | 중급 이상 사용자, 연구자, 맞춤형 구현 목적    |
+
+📌 추가 정보
+PyTorch 예시
+import torch.nn as nn
+
+# torch.nn.Module을 상속받아 Linear 층 추가
+self.fc1 = nn.Linear(input_dim, 10)
+→ PyTorch에서는 nn.Module을 상속받아 신경망을 구성하며, Linear는 완전연결층(fully connected layer)을 의미합니다.
+
+✔ Scikit-learn 예시
+
+from sklearn.neural_network import MLPClassifier
+
+# MLPClassifier를 사용하여 ANN 구현
+MLPClassifier(hidden_layer_sizes=(10,), activation='relu')
+→ Scikit-learn은 간단한 ANN 구현을 지원하며, 주로 교육, 테스트용으로 사용됩니다.
+
+다음은 이미지에 있는 **"텐서플로우 케라스"** 관련 설명을 텍스트로 정리한 내용입니다.
+
+---
+
+### 📘 텐서플로우 케라스
+
+* 텐서플로우의 케라스 API는 딥러닝 모델을 **간단하고 효율적으로 구축하고 훈련하기 위한 고수준 API**이다.
+* 다양한 신경망 구조를 쉽게 구현할 수 있도록 설계되었으며,
+* **TensorFlow 2.x부터는 공식적으로 Keras가 포함**되어 기본 지원된다.
+
+---
+
+### ✅ 주요 모듈 설명
+
+* **`tf.keras.Sequential`**
+  순차 모델로 여러 층을 순서대로 쌓아 신경망을 구성할 때 사용됨.
+  예: 각 층은 이전 층의 출력을 입력으로 받음.
+
+* **`tf.keras.Model`**
+  사용자가 직접 모델을 커스터마이징할 때 사용.
+  클래스를 상속받아 복잡한 구조의 모델도 정의 가능.
+
+* **`tf.keras.layers`**
+  다양한 층(Layer)들을 제공하는 모듈. 예:
+
+  * `Dense`: 완전 연결층
+  * `Conv2D`: 2D 합성곱 층
+  * `Flatten`, `Dropout` 등
+
+* **`tf.keras.losses`**
+  손실 함수 정의에 사용됨. 모델의 출력과 실제 정답 사이의 오차를 계산.
+  예:
+
+  * `categorical_crossentropy`: 다중 클래스 분류용 크로스 엔트로피 손실 함수
+
+* **`tf.keras.optimizers`**
+  최적화 알고리즘을 선택하여 모델을 학습시킬 때 사용.
+  예:
+
+  * `Adam`, `SGD`, `RMSprop` 등
+
+* **`tf.keras.metrics`**
+  모델의 성능을 측정하는 데 사용되는 지표.
+  예:
+
+  * `accuracy` (정확도), `precision` (정밀도)
+
+* **`tf.keras.callbacks`**
+  학습 중간에 모델 저장, 조기 종료, 학습률 조정 등 다양한 작업을 자동으로 처리하게 도와주는 기능.
+  예:
+
+  * `EarlyStopping`, `ModelCheckpoint`
+
+* **`tf.keras.utils`**
+  데이터 전처리 및 유틸리티 함수들이 포함된 모듈.
+  예: 데이터 로드, 정규화, 원-핫 인코딩 처리 등
+
+---
+
+
+단계 목적 주요 메서드 설명
+1. 데이터 불러오기 학습용 데이터 준비 keras.datasets.mnist.load_data() 내장 or 외부 데이터 사용
+2. 전처리 정규화, reshape, 원-핫 인코딩 등 X.astype('float32') / 255.0, to_categorical() 딥러닝 입력에 맞는 형태로 변환
+3. 모델 정의 모델 구성 keras.Sequential([...]), keras.Model 층을 쌓아 딥러닝 모델 구성
+4. 컴파일 손실 함수와 최적화기 정의 .compile(optimizer=..., loss=..., metrics=...) 학습 방법을 지정
+5. 학습 모델 훈련 .fit(X_train, y_train, epochs=..., batch_size=...) 실제 학습 진행
+6. 저장 모델 파일로 저장 .save('model.h5') 또는 model.save_weights() 전체 모델 또는 가중치만 저장
+7. 로딩 저장된 모델 불러오기 keras.models.load_model('model.h5') 저장한 모델 구조+가중치 복원
+8. 예측 입력에 대한 결과 추론 .predict(X_test) 결과값(확률 또는 회귀 출력)
+9. 평가 정확도, 손실 등 측정 .evaluate(X_test, y_test) 실제 정답과 비교한 성능 확인
+
+1. Sequential([...]) 또는 Sequential().add()
+딥러닝 모델의 골격을 정의하는 클래스층(layer)을 순서대로 쌓는 간단한 구조
+리스트 형식으로 층을 전달하거나, .add()로 하나씩 추가
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+model = Sequential([
+Dense(64, activation='relu', input_shape=(784,)),
+Dense(10, activation='softmax')
+])
+
+Dense()
+입력의 모든 뉴런을 출력의 모든 뉴런과 연결하는 전형적인 신경망 층
+딥러닝에서 말하는 전결합층(Fully Connected Layer)
+from tensorflow.keras.layers import Dense
+Dense(units, activation=None, use_bias=True, kernel_initializer='glorot_uniform', ...)
+파라미터 설명 예시
+units 출력 뉴런 수 (필수) Dense(64) → 출력 차원 64
+activation 활성화 함수 'relu', 'sigmoid', 'softmax' 등
+input_shape 첫 번째 층에 입력되는 데이터 형태 input_shape=(784,)
+use_bias bias 항 사용 여부 (기본 True) use_bias=False
+kernel_initializer 가중치 초기화 방식 'glorot_uniform', 'he_normal'
+bias_initializer bias 초기화 방식 'zeros' 등
+kernel_regularizer 가중치 정규화 l1, l2, l1_l2
+name 층 이름 지정 name="hidden_layer_1"
+
+1. 리스트 방식: Sequential([...])
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+model = Sequential([
+Dense(64, activation='relu', input_shape=(100,)),
+Dense(10, activation='softmax')
+])
+2. .add() 방식: Sequential() + .add()
+.add()는 조건, 반복, 예외처리 등 동적 모델 구성에 유리
+model = Sequential()
+model.add(Dense(64, activation='relu', input_shape=(100,)))
+model.add(Dense(10, activation='softmax'))
+
+* Functional(함수형) API 방식 : layers.Dense()
+복잡한 모델 구조를 만들 수 있는 방식
+병렬 연결, 다중 입력/출력, skip-connection 등 자유도 높음
+다중 입력/출력, 복잡한 연결 구조에 유리
+from tensorflow.keras import layers, Model, Input
+inputs = Input(shape=(784,))
+x = layers.Dense(128, activation='relu')(inputs)
+x = layers.Dense(64, activation='relu')(x)
+outputs = layers.Dense(10, activation='softmax')(x)
+model = Model(inputs=inputs, outputs=outputs)
+입력(784차원) → 은닉층 128 → 은닉층 64 → 출력층 10 (softmax)
+
+비교 항목 Sequential() + Dense() layers.Dense() (Functional API)
+모델 정의 방식 순차적 모델 (Sequential) 함수형 모델 (Functional API)
+코드 구조 간단, 순서대로 층 쌓기 복잡한 흐름도 유연하게 표현 가능
+사용 목적 단순 MLP, 빠른 실험 분기, 합성, 다중 입력/출력 등 복잡 모델
+사용 위치 Sequential([...]) 또는
+model.add(Dense(...)) 내부 x = layers.Dense(...)(x) 형태
+유연성 낮음 (순차만 가능) 높음 (비선형 구조 가능)
+함
+비교 항목 Sequential() + Dense() layers.Dense() (Functional API)
+모델 정의 방식 순차적 모델 (Sequential) 함수형 모델 (Functional API)
+코드 구조 간단, 순서대로 층 쌓기 복잡한 흐름도 유연하게 표현 가능
+사용 목적 단순 MLP, 빠른 실험 분기, 합성, 다중 입력/출력 등 복잡 모델
+사용 위치 Sequential([...]) 또는
+model.add(Dense(...)) 내부 x = layers.Dense(...)(x) 형태
+유연성 낮음 (순차만 가능) 높음 (비선형 구조 가능)
+
+2. model.compile(optimizer, loss, metrics)
+역할학습에 필요한 구성을 설정함 (옵티마이저, 손실함수, 평가기준)
+인자 설명
+optimizer 'adam', 'sgd', Adam(lr=0.001) 등
+loss 'categorical_crossentropy', 'mse' 등
+metrics ['accuracy'], ['mae'], ['AUC'] 등
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+3. model.fit(X, y, ...)
+역할데이터를 주입하여 모델을 학습시킴
+인자 설명
+X, y 학습 입력, 레이블
+epochs 전체 데이터셋 반복 횟수
+batch_size 한 번에 처리할 데이터 수
+validation_split 일부 데이터를 검증용으로 자동 분리
+callbacks 학습 중 특정 조건에서 자동 동작 수행
+model.fit(X_train, y_train, epochs=10, batch_size=32, validation_split=0.2)
+
+4. model.evaluate(X_test, y_test)
+역할학습이 끝난 모델의 정확도 및 손실 평가
+반환값loss, metrics (튜플 형태)
+loss, acc = model.evaluate(X_test, y_test)
+print(f"Test Accuracy: {acc:.4f}")
+
+5. model.predict(X)
+학습된 모델을 사용해 새로운 데이터에 대한 예측
+반환값회귀: 예측 수치분류: 확률 벡터 → np.argmax() 필요
+y_pred = model.predict(X_new)
+y_class = y_pred.argmax(axis=1)
+
+6. model.summary()
+역할모델의 층 구조, 출력 크기, 파라미터 수를 요약 출력
+model.summary()
+7. model.save('model.h5’)
+역할모델 전체(구조 + 가중치 + compile 정보)를 저장
+포맷.h5: HDF5 포맷
+'SavedModel': 폴더로 저장 (TensorFlow 표준)
+model.save('my_model.h5')
+
+8. load_model('model.h5’)
+.save()로 저장한 전체 모델을 복원
+from tensorflow.keras.models import load_model
+model = load_model('my_model.h5')
+
+9. callbacks: EarlyStopping, ModelCheckpoint
+• EarlyStopping 과적합 방지를 위한 조기 종료
+• ModelCheckpoint 가장 성능 좋은 모델 자동 저장
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+callbacks = [
+EarlyStopping(patience=3, restore_best_weights=True),
+ModelCheckpoint('best_model.h5', save_best_only=True)
+]
+model.fit(X_train, y_train, epochs=10, callbacks=callbacks)
+
+
+Softmax
+# 출력층 (10개 클래스, 분류 문제)
+model.add(Dense(units=10, activation=
+'softmax'
+))
+# 컴파일
+model.compile(optimizer='adam',
+loss='categorical_crossentropy',
+metrics=['accuracy'])
+
+Softmax는 활성화 함수의 한 종류로, 신경망의 출력층에서 분류 문제를 해결할 때 사용
+예를 들어,강아지 🐶, 고양이 🐱, 새🐦 사진 중 어떤 동물인지 분류하는 문제가 있다면,
+Softmax는 입력받은 데이터를 각각의 클래스(강아지, 고양이, 새 등)에 속할 확률로 변환
+Softmax는 신경망의 출력 결과를 "확률 형태"로 변환해주는 활성화 함수
+출력되는 모든 값은 0과 1 사이의 확률값으로 모든 클래스의 확률 합이 1.
+
+Functional API(함수형 API)
+신경망을 구성할 때 레이어를 함수처럼 사용하고,
+다양한 경로를 연결하는 연산 그래프(Computational Graph) 방식
+병렬처리가 가능하여 ResNet, Autoencoder, GANs 등의 모델을 만들 때 사용
