@@ -1,0 +1,6 @@
+# .gitignore
+*.jpg
+*.png
+*.jpeg
+*.zip
+cats_and_dogs_filtered/

@@ -1,13 +1,21 @@
 import torch
+print("PyTorch 버전:", torch.__version__)
+print("CUDA 사용 가능 여부:", torch.cuda.is_available())
+print("CUDA 버전:", torch.version.cuda)
 
-print(f"PyTorch 버전: {torch.__version__}")
-print(f"CUDA 버전: {torch.version.cuda}")
-print(f"cuDNN 버전: {torch.backends.cudnn.version()}")
-print(f"CUDA 사용 가능 여부: {torch.cuda.is_available()}")
+import numpy as np
+print(np.__file__)
 
-if torch.cuda.is_available():
-    print(f"사용 가능한 GPU 개수: {torch.cuda.device_count()}")
-    for i in range(torch.cuda.device_count()):
-        print(f"GPU {i}: {torch.cuda.get_device_name(i)}")
+import numpy as np
+print("✅ numpy version:", np.__version__)
+print("✅ type check:", type(np.ndarray))
 
-        
+from PIL import Image
+import matplotlib.pyplot as plt
+import numpy as np
+
+img = Image.new('RGB', (100, 100), color='blue')
+arr = np.array(img)
+plt.imshow(arr)
+plt.title("Test Image")
+plt.show()
